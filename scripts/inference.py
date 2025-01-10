@@ -756,6 +756,7 @@ def main(
         img = (utils.helpers.tensor_to_image(img, "RGB") * 255).astype(np.uint8)
         frames.append(img[..., ::-1])
         # cv2.imwrite("output/test.jpg", img[..., ::-1])
+        print(cp)
 
     get_video(frames, output_file)
 
