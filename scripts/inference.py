@@ -595,15 +595,15 @@ def render_fg(
                 print("cam_origin:",cam_origin.shape,cam_origin.device)
                 print("building_z:",building_z.shape,building_z.device)
                 output_fg = gancraft_fg(
-                    _hf_seg,
-                    _voxel_id[:, psy:pey, psx:pex],
-                    depth2[:, psy:pey, psx:pex],
-                    _raydirs[:, psy:pey, psx:pex],
-                    cam_origin,
+                    _hf_seg.to(gancraft_fg.output_device),
+                    _voxel_id[:, psy:pey, psx:pex].to(gancraft_fg.output_device),
+                    depth2[:, psy:pey, psx:pex].to(gancraft_fg.output_device),
+                    _raydirs[:, psy:pey, psx:pex].to(gancraft_fg.output_device),
+                    cam_origin.to(gancraft_fg.output_device),
                     building_stats=torch.from_numpy(np.array(building_stats)).unsqueeze(
                         dim=0
                     ).to(gancraft_fg.output_device),
-                    z=building_z,
+                    z=building_z.to(gancraft_fg.output_device),
                     deterministic=True,
                 )
                 facade_mask = (
