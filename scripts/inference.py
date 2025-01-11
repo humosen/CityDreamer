@@ -77,13 +77,14 @@ def get_models(sampler_ckpt, gancraft_bg_ckpt, gancraft_fg_ckpt):
         vqae = torch.nn.DataParallel(vqae).cuda()
         sampler = torch.nn.DataParallel(sampler).cuda()
         gancraft_bg = torch.nn.DataParallel(gancraft_bg).cuda()
-        gancraft_fg = torch.nn.DataParallel(gancraft_fg,device_ids=[1,0]).cuda()
+        gancraft_fg = torch.nn.DataParallel(gancraft_fg,device_ids=[1])#.cuda()
     else:
         vqae.output_device = torch.device("cpu")
         sampler.output_device = torch.device("cpu")
         gancraft_bg.output_device = torch.device("cpu")
         gancraft_fg.output_device = torch.device("cpu")
 
+    print([(p.shape,p.device) for p in gancraft_fg.parameters()])
     # Recover from checkpoints
     logging.info("Recovering from checkpoints ...")
     vqae.load_state_dict(sampler_ckpt["vqae"], strict=False)
@@ -91,6 +92,8 @@ def get_models(sampler_ckpt, gancraft_bg_ckpt, gancraft_fg_ckpt):
     gancraft_bg.load_state_dict(gancraft_bg_ckpt["gancraft_g"], strict=False)
     gancraft_fg.load_state_dict(gancraft_fg_ckpt["gancraft_g"], strict=False)
 
+    print([(p.shape,p.device) for p in gancraft_fg.parameters()])
+    
     return vqae, sampler, gancraft_bg, gancraft_fg
 
 
@@ -749,7 +752,6 @@ def main(
     cam_pos = get_orbit_camera_positions(radius, altitude)
 
     logging.info("Rendering videos ...")
-    print([(p.shape,p.device) for p in gancraft_fg.parameters()])
     frames = []
     for cp in tqdm(cam_pos):
         img = render(
