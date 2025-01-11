@@ -565,7 +565,7 @@ def render_fg(
         CONSTANTS["GES_IMAGE_HEIGHT"],
         CONSTANTS["GES_IMAGE_WIDTH"],
         dtype=torch.float32,
-        device=gancraft_fg.output_device,
+        device=hf_seg.output_device,
     )
     fg_mask = torch.zeros(
         1,
@@ -573,7 +573,7 @@ def render_fg(
         CONSTANTS["GES_IMAGE_HEIGHT"],
         CONSTANTS["GES_IMAGE_WIDTH"],
         dtype=torch.float32,
-        device=gancraft_fg.output_device,
+        device=hf_seg.output_device,
     )
     # Prevent some buildings are out of bound.
     # THIS SHOULD NEVER HAPPEN AGAIN.
@@ -609,7 +609,7 @@ def render_fg(
                     ).to(gancraft_fg.output_device),
                     z=building_z.to(gancraft_fg.output_device),
                     deterministic=True,
-                ).to(gancraft_bg.output_device)
+                ).to(hf_seg.output_device)
                 facade_mask = (
                     voxel_id[:, sy:ey, sx:ex, 0, 0] == building_id
                 ).unsqueeze(dim=1)
@@ -663,7 +663,7 @@ def render(
     with torch.no_grad():
         bg_img = render_bg(
             patch_size, gancraft_bg, hf_seg, voxel_id, depth2, raydirs, cam_origin, bg_z
-        ).to(gancraft_fg.output_device)
+        )#.to(gancraft_fg.output_device)
         for b in buildings:
             assert b % 2 == 0, "Building Instance ID MUST be an even number."
             fg_img, fg_mask = render_fg(
