@@ -21,8 +21,6 @@ import sys
 from PIL import Image
 from tqdm import tqdm
 
-logging.basicConfig(level=logging.DEBUG)
-
 # Disable the warning message for PIL decompression bomb
 # Ref: https://stackoverflow.com/questions/25705773/image-cropping-tool-python
 Image.MAX_IMAGE_PIXELS = None
@@ -774,7 +772,10 @@ def main(
 
 
 if __name__ == "__main__":
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
     logging.basicConfig(
+        stream = sys.stdout,
         format="[%(levelname)s] %(asctime)s %(message)s",
         level=logging.INFO,
     )
