@@ -75,7 +75,7 @@ def get_models(sampler_ckpt, gancraft_bg_ckpt, gancraft_fg_ckpt):
         vqae = torch.nn.DataParallel(vqae).cuda()
         sampler = torch.nn.DataParallel(sampler).cuda()
         gancraft_bg = torch.nn.DataParallel(gancraft_bg).cuda()
-        gancraft_fg = torch.nn.DataParallel(gancraft_fg).cuda()
+        gancraft_fg = torch.nn.DataParallel(gancraft_fg,device_ids=[1,0]).cuda()
     else:
         vqae.output_device = torch.device("cpu")
         sampler.output_device = torch.device("cpu")
