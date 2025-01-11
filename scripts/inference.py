@@ -611,7 +611,7 @@ def render_fg(
                     ).to(gancraft_fg.output_device),
                     z=building_z.to(gancraft_fg.output_device),
                     deterministic=True,
-                )
+                ).to(gancraft_bg.output_device)
                 facade_mask = (
                     voxel_id[:, sy:ey, sx:ex, 0, 0] == building_id
                 ).unsqueeze(dim=1)
