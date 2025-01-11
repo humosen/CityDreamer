@@ -653,7 +653,7 @@ def render(
     with torch.no_grad():
         bg_img = render_bg(
             patch_size, gancraft_bg, hf_seg, voxel_id, depth2, raydirs, cam_origin, bg_z
-        )
+        ).to(gancraft_fg.output_device)
         for b in buildings:
             assert b % 2 == 0, "Building Instance ID MUST be an even number."
             fg_img, fg_mask = render_fg(
