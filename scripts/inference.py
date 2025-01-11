@@ -588,6 +588,12 @@ def render_fg(
             psx, pex, psy, pey = get_pad_img_bbox(sx, ex, sy, ey)
 
             if torch.count_nonzero(_raydirs[:, sy:ey, sx:ex]) > 0:
+                print("_hf_seg:",_hf_seg.shape,_hf_seg.device)
+                print("_voxel_id:",_voxel_id.shape,_voxel_id.device)
+                print("depth2:",depth2.shape,depth2.device)
+                print("_raydirs:",_raydirs.shape,_raydirs.device)
+                print("cam_origin:",cam_origin.shape,cam_origin.device)
+                print("building_z:",building_z.shape,building_z.device)
                 output_fg = gancraft_fg(
                     _hf_seg,
                     _voxel_id[:, psy:pey, psx:pex],
@@ -596,7 +602,7 @@ def render_fg(
                     cam_origin,
                     building_stats=torch.from_numpy(np.array(building_stats)).unsqueeze(
                         dim=0
-                    ),
+                    ).to(gancraft_fg.output_device),
                     z=building_z,
                     deterministic=True,
                 )
