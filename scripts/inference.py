@@ -21,6 +21,8 @@ import sys
 from PIL import Image
 from tqdm import tqdm
 
+logging.basicConfig(level=logging.DEBUG)
+
 # Disable the warning message for PIL decompression bomb
 # Ref: https://stackoverflow.com/questions/25705773/image-cropping-tool-python
 Image.MAX_IMAGE_PIXELS = None
