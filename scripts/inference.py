@@ -686,7 +686,7 @@ def render(
 def get_video(frames, output_file):
     video = cv2.VideoWriter(
         output_file,
-        cv2.VideoWriter_fourcc(*"avc1"),
+        cv2.VideoWriter_fourcc(*"mp4v"),
         4,
         (CONSTANTS["GES_IMAGE_WIDTH"], CONSTANTS["GES_IMAGE_HEIGHT"]),
     )
