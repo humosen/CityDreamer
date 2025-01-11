@@ -564,16 +564,16 @@ def render_fg(
         3,
         CONSTANTS["GES_IMAGE_HEIGHT"],
         CONSTANTS["GES_IMAGE_WIDTH"],
-        dtype=torch.float32#,
-        #device=hf_seg.output_device,
+        dtype=torch.float32,
+        device=hf_seg.device,
     )
     fg_mask = torch.zeros(
         1,
         1,
         CONSTANTS["GES_IMAGE_HEIGHT"],
         CONSTANTS["GES_IMAGE_WIDTH"],
-        dtype=torch.float32#,
-        #device=hf_seg.output_device,
+        dtype=torch.float32,
+        device=hf_seg.device,
     )
     # Prevent some buildings are out of bound.
     # THIS SHOULD NEVER HAPPEN AGAIN.
