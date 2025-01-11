@@ -596,7 +596,7 @@ def render_fg(
                 print("_raydirs:",_raydirs.shape,_raydirs.device)
                 print("cam_origin:",cam_origin.shape,cam_origin.device)
                 print("building_z:",building_z.shape,building_z.device)
-                print("params:",list(gancraft_fg.parameters()))
+                #print("params:",list(gancraft_fg.parameters()))
                 output_fg = gancraft_fg(
                     _hf_seg.to(gancraft_fg.output_device),
                     _voxel_id[:, psy:pey, psx:pex].to(gancraft_fg.output_device),
@@ -749,6 +749,7 @@ def main(
     cam_pos = get_orbit_camera_positions(radius, altitude)
 
     logging.info("Rendering videos ...")
+    print([(p.shape,p.device) for p in gancraft_fg.parameters()])
     frames = []
     for cp in tqdm(cam_pos):
         img = render(
