@@ -594,6 +594,7 @@ def render_fg(
                 print("_raydirs:",_raydirs.shape,_raydirs.device)
                 print("cam_origin:",cam_origin.shape,cam_origin.device)
                 print("building_z:",building_z.shape,building_z.device)
+                print("params:",gancraft_fg.parameters())
                 output_fg = gancraft_fg(
                     _hf_seg.to(gancraft_fg.output_device),
                     _voxel_id[:, psy:pey, psx:pex].to(gancraft_fg.output_device),
